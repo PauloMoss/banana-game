@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banana Game</title>
+
+    <style>
+      body {
+        background: #181820;
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        padding: 0 15px;
+        top: 0;
+        right: 0;
+        height: 65px;
+        width: 100%;
+        background: #000;
+      }
+
+      .score {
+        font-size: 1.5em;
+        font-family: Verdana;
+        color: #ffffff;
+        transition: all 0.7s ease-in;
+      }
+
+      .score.highlight {
+        font-size: 2em;
+        color: green;
+        transition: none;
+      }
+
+      .floor {
+        position: fixed;
+        bottom: 25px;
+        right: 10px;
+        left: 10px;
+        width: calc(100% - 20px);
+        background-color: #ffffff;
+        height: 1px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <div class="header">
+      <div class="lifes"></div>
+      <div class="score">Score: 0</div>
+    </div>
+    <div class="floor"></div>
+
+    <script src="./bundle.js"></script>
+  </body>
+</html>
