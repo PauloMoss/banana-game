@@ -10,3 +10,7 @@ game.start();
 window.addEventListener("keydown", (event: KeyboardEvent) => {
   game.onKeyDown(event);
 });
+
+canvas.addEventListener("click", () => {
+  game.start();
+});

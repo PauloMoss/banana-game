@@ -1,3 +1,4 @@
+import Bomb from "./Bomb";
 import Dropable from "./Dropable";
 import Fruit from "./Fruit";
 import Player from "./Player";
@@ -37,6 +38,9 @@ export default class Game {
   spawnFruit() {
     this.dropables.push(new Fruit(this.canvas, this.context));
   }
+  spawnBomb() {
+    this.dropables.push(new Bomb(this.canvas, this.context));
+  }
 
   deleteDropable(dropable: Dropable) {
     this.dropables = this.dropables.filter((d) => d !== dropable);
@@ -55,7 +59,7 @@ export default class Game {
   }
 
   gameLoop() {
-    this.updateFruitDrop();
+    this.updateImageDrop();
     this.renderGame();
   }
 
@@ -65,8 +69,8 @@ export default class Game {
     this.dropables.forEach((dropable) => dropable.drawImage());
   }
 
-  updateFruitDrop() {
-    this.dropables.forEach((dropable) => dropable.updateFruitDrop(this));
+  updateImageDrop() {
+    this.dropables.forEach((dropable) => dropable.updateImageDrop(this));
   }
 
   startIntervals() {
@@ -76,6 +80,7 @@ export default class Game {
     this.intervalsIds = [
       setInterval(() => this.gameLoop(), 1000 / 60),
       setInterval(() => this.spawnFruit(), 1000),
+      setInterval(() => this.spawnBomb(), 2000),
     ];
   }
 
@@ -96,8 +101,14 @@ export default class Game {
     } else return;
     this.player.moveTo(moveX, this.canvas);
   }
+  endGame() {
+    this.clearIntervals();
+
+    setTimeout(() => {
+      alert(`Fim do jogo! Você fez ${this.score.toFixed(1)} pontos!`);
+    }, 2000);
+  }
 }
 /*
-      setInterval(() => this.spawnBomb(), 2000),
       
-      setInterval(() => this.spawnBanana(), 2000),*/
+      */

@@ -17,7 +17,7 @@ export default class Fruit extends AutonomousDraw implements Dropable {
     this.points = fruitType.points;
   }
 
-  updateFruitDrop(game: Game) {
+  updateImageDrop(game: Game) {
     this.move();
 
     if (game.player.checkCollision(this)) {
@@ -27,7 +27,6 @@ export default class Fruit extends AutonomousDraw implements Dropable {
       } else {
         newScore = game.score + this.points;
       }
-      console.log(newScore);
       game.deleteDropable(this);
       game.updateScore(newScore);
     }

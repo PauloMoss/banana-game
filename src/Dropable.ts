@@ -1,6 +1,6 @@
 import Game from "./Game";
 
 export default interface Dropable {
-  updateFruitDrop(game: Game): void;
+  updateImageDrop(game: Game): void;
   drawImage(): void;
 }
