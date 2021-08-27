@@ -49,7 +49,7 @@ export default class Game {
   updateScore(newScore: number) {
     const element = document.querySelector(".score") as HTMLElement;
 
-    if (newScore - this.score > 10) {
+    if (newScore - this.score > 100) {
       element.classList.add("highlight");
       setTimeout(() => element.classList.remove("highlight"), 100);
     }
