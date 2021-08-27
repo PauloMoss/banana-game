@@ -1,14 +1,14 @@
+import Dropable from "./Dropable";
+import Fruit from "./Fruit";
 import Player from "./Player";
 
 export default class Game {
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   gameIntervalId: number;
-  bombIntervalId: number;
-  fruitsIntervalId: number;
-  bananaIntervalId: number;
   scoreIntervalId: number;
   intervalsIds: number[];
+  dropables: Dropable[];
   player: Player;
   score: number;
 
@@ -20,43 +20,63 @@ export default class Game {
   }
 
   start() {
-    this.resetPlayer();
+    this.resetPlayerAndDropables();
     this.startIntervals();
   }
 
-  resetPlayer() {
+  resetPlayerAndDropables() {
     this.player = new Player(
       this.context,
       this.canvas.width / 2,
       this.canvas.height - 125
     );
+    this.dropables = [];
+    this.score = 0;
   }
 
-  onKeyDown(event: KeyboardEvent) {
-    let moveX = 0;
-    if (event.key === "ArrowLeft") {
-      moveX = -1;
-    } else if (event.key === "ArrowRight") {
-      moveX = +1;
-    } else return;
-    this.player.moveTo(moveX);
+  spawnFruit() {
+    this.dropables.push(new Fruit(this.canvas, this.context));
+  }
+
+  deleteDropable(dropable: Dropable) {
+    this.dropables = this.dropables.filter((d) => d !== dropable);
+  }
+
+  updateScore(newScore: number) {
+    const element = document.querySelector(".score") as HTMLElement;
+
+    if (newScore - this.score > 10) {
+      element.classList.add("highlight");
+      setTimeout(() => element.classList.remove("highlight"), 100);
+    }
+
+    this.score = newScore;
+    element.innerText = "Score: " + this.score.toFixed(1);
   }
 
   gameLoop() {
-    //this.updateState();
+    this.updateFruitDrop();
     this.renderGame();
   }
 
   renderGame() {
     this.clearScreen();
-    this.player.draw();
+    this.player.drawImage();
+    this.dropables.forEach((dropable) => dropable.drawImage());
+  }
+
+  updateFruitDrop() {
+    this.dropables.forEach((dropable) => dropable.updateFruitDrop(this));
   }
 
   startIntervals() {
     this.clearIntervals();
     const { setInterval } = window;
 
-    this.intervalsIds = [setInterval(() => this.gameLoop(), 1000 / 60)];
+    this.intervalsIds = [
+      setInterval(() => this.gameLoop(), 1000 / 60),
+      setInterval(() => this.spawnFruit(), 1000),
+    ];
   }
 
   clearIntervals() {
@@ -66,8 +86,18 @@ export default class Game {
   clearScreen() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
+
+  onKeyDown(event: KeyboardEvent) {
+    let moveX;
+    if (event.key === "ArrowLeft") {
+      moveX = -1;
+    } else if (event.key === "ArrowRight") {
+      moveX = +1;
+    } else return;
+    this.player.moveTo(moveX, this.canvas);
+  }
 }
 /*
       setInterval(() => this.spawnBomb(), 2000),
-      setInterval(() => this.spawnFruit(), 1000),
+      
       setInterval(() => this.spawnBanana(), 2000),*/

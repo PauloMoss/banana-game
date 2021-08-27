@@ -3,6 +3,7 @@ export default class Illustration {
   x;
   y;
   img;
+  radius;
 
   constructor(
     context: CanvasRenderingContext2D,
@@ -14,9 +15,10 @@ export default class Illustration {
     this.x = initialX;
     this.y = initialY;
     this.img = img;
+    this.radius = 40;
   }
 
-  draw() {
+  drawImage() {
     this.context.drawImage(this.img, this.x, this.y, 80, 100);
   }
 }
